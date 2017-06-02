@@ -22,14 +22,15 @@ namespace player
     public partial class MainWindow : Window
     {
         private MediaPlayer player = new MediaPlayer();
-        List<string> playlist = new List<string>();
-        List<string> songNames = new List<string>();
+        List<string> songList = new List<string>();
+        
         int songIdx = 0;
         int previousSong;
         
 
         public MainWindow()
         {
+            
             InitializeComponent();
         }
 
@@ -64,8 +65,8 @@ namespace player
 
         private void Play_Click(object sender, RoutedEventArgs e)
         {
-            if (playButton.Content == FindResource("Play") && playlist.Count != 0)
-                {
+            if (playButton.Content != FindResource("Pause") && songList.Count != 0)
+            {
                 playButton.Content = FindResource("Pause");
                 player.Play();
             }
@@ -81,7 +82,7 @@ namespace player
 
         private void Next_Click(object sender, RoutedEventArgs e)
         {
-            if (playlist.Count == 0)
+            if (songList.Count == 0)
             {
 
             } else
@@ -89,12 +90,12 @@ namespace player
                 if (shuffleButton.Background == Brushes.White)
                 {
                     songIdx += 1;
-                    if (songIdx == playlist.Count)
+                    if (songIdx == songList.Count)
                     {
                         songIdx = 0;
                     }
-                    player.Open(new Uri(playlist[songIdx]));
-                    tbPlaying.Text = "Now playing: " + songNames[songIdx];
+                    player.Open(new Uri(songList[songIdx]));
+                    tbPlaying.Text = "Now playing: " + playlist.Items[songIdx];
                     if (playButton.Content == FindResource("Pause"))
                     {
                         player.Play();
@@ -107,10 +108,10 @@ namespace player
                     while (songIdx == previousSong)
                     {
                         Random rnd = new Random();
-                        songIdx = rnd.Next(0, playlist.Count);
+                        songIdx = rnd.Next(0, songList.Count);
                     }
-                    player.Open(new Uri(playlist[songIdx]));
-                    tbPlaying.Text = "Now playing: " + songNames[songIdx];
+                    player.Open(new Uri(songList[songIdx]));
+                    tbPlaying.Text = "Now playing: " + playlist.Items[songIdx];
                     if (playButton.Content == FindResource("Pause"))
                     {
                         player.Play();
@@ -123,7 +124,7 @@ namespace player
 
         private void Prev_Click(object sender, RoutedEventArgs e)
         {
-            if (playlist.Count == 0)
+            if (songList.Count == 0)
             {
 
             } else
@@ -131,10 +132,10 @@ namespace player
                 songIdx -= 1;
                 if (songIdx < 0)
                 {
-                    songIdx = playlist.Count - 1;
+                    songIdx = songList.Count - 1;
                 }
-                player.Open(new Uri(playlist[songIdx]));
-                tbPlaying.Text = "Now playing: " + songNames[songIdx];
+                player.Open(new Uri(songList[songIdx]));
+                tbPlaying.Text = "Now playing: " + playlist.Items[songIdx];
                 if (playButton.Content == FindResource("Pause"))
                 {
                     player.Play();
@@ -166,7 +167,6 @@ namespace player
 
         private void Open_Click(object sender, EventArgs e)
         {
-            List<string> words = new List<string>();
             songIdx = 0;
             if (playButton.Content == FindResource("Pause"))
             {
@@ -176,32 +176,20 @@ namespace player
             Microsoft.Win32.OpenFileDialog open = new Microsoft.Win32.OpenFileDialog();
             open.Multiselect = true;
             open.Filter = "All Files|*.mp3*";
-            string song;
             if (open.ShowDialog() == true)
             {
-                playlist.Clear();
-                songNames.Clear();
                 foreach (string file in open.FileNames)
                 {
-                    playlist.Add(file);
+                    songList.Add(file);
                 }
-                player.Open(new Uri(playlist[songIdx]));
-                foreach(string s in playlist)
+                player.Open(new Uri(songList[songIdx]));
+                foreach(string s in songList)
                 {
-                    words = s.Split('\\').ToList();
-                    song = words[words.Count() - 1];
-                    songNames.Add(song.Replace(".mp3", String.Empty));
+                    playlist.Items.Add(System.IO.Path.GetFileName(s).Replace(".mp3", String.Empty));
                 }
-                tbPlaying.Text = "Now playing: " + songNames[songIdx];
-                tb.Text = "";
-                songList.ItemsSource = songNames;
-                for (int i = 1; i < songNames.Count(); i++)
-                { 
-                    tb.Text += "\n" + songNames[i];
-                }
-                
-
+                tbPlaying.Text = "Now playing: " + playlist.Items[songIdx]; ;
             }
         }
+
     }
 }
