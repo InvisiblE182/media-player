@@ -23,10 +23,9 @@ namespace player
     {
         private MediaPlayer player = new MediaPlayer();
         List<string> playlist = new List<string>();
-        int currentSong = 0;
-        int playing = 0;
-        int shuffle = 0;
-        int repeat = 0;
+        List<string> songNames = new List<string>();
+        int songIdx = 0;
+        int previousSong;
         
 
         public MainWindow()
@@ -36,86 +35,113 @@ namespace player
 
         private void Shuffle_Click(object sender, RoutedEventArgs e)
         {
-            if (shuffle == 0)
+            if (shuffleButton.Background == Brushes.White)
             {
-                Shuffle.Background = Brushes.Aqua;
-                shuffle = 1;
+                shuffleButton.Background = Brushes.Aqua;
             } else
             {
-                Shuffle.Background = Brushes.White;
-                shuffle = 0;
+                shuffleButton.Background = Brushes.White;
             }
         }
 
         private void Repeat_Click(object sender, RoutedEventArgs e)
         {
-            if (repeat == 0)
+            if (repeatButton.Background == Brushes.White)
             {
-                Repeat.Background = Brushes.Aqua;
-                repeat = 1;
+                repeatButton.Background = Brushes.Aqua;
             }
             else
             {
-                Repeat.Background = Brushes.White;
-                repeat = 0;
+                repeatButton.Background = Brushes.White;
             }
         }
 
         private void Stop_Click(object sender, RoutedEventArgs e)
         {
             player.Stop();
-            PlayButton.Content = FindResource("Play");
-            playing = 0;
-        }
-
-        private void Prev_Click(object sender, RoutedEventArgs e)
-        {
-            currentSong -= 1;
-            if (currentSong < 0)
-            {
-                currentSong = playlist.Count - 1;
-            }
-            player.Open(new Uri(playlist[currentSong]));
-            player.Play();
+            playButton.Content = FindResource("Play");
         }
 
         private void Play_Click(object sender, RoutedEventArgs e)
         {
-            if (playing == 0 && playlist.Count != 0)
+            if (playButton.Content == FindResource("Play") && playlist.Count != 0)
                 {
-                PlayButton.Content = FindResource("Pause");
+                playButton.Content = FindResource("Pause");
                 player.Play();
-                playing = 1;
             }
             else
             {
-                PlayButton.Content = FindResource("Play");
+                playButton.Content = FindResource("Play");
                 player.Pause();
-                playing = 0;
             }
         }
 
+        
+            
+
         private void Next_Click(object sender, RoutedEventArgs e)
         {
-            if (shuffle == 0)
+            if (playlist.Count == 0)
             {
-                currentSong += 1;
-                if (currentSong == playlist.Count)
+
+            } else
+            {
+                if (shuffleButton.Background == Brushes.White)
                 {
-                    currentSong = 0;
+                    songIdx += 1;
+                    if (songIdx == playlist.Count)
+                    {
+                        songIdx = 0;
+                    }
+                    player.Open(new Uri(playlist[songIdx]));
+                    tbPlaying.Text = "Now playing: " + songNames[songIdx];
+                    if (playButton.Content == FindResource("Pause"))
+                    {
+                        player.Play();
+                    }
+
                 }
-                player.Open(new Uri(playlist[currentSong]));
-                player.Play();
-                playing = 1;
+                else
+                {
+                    previousSong = songIdx;
+                    while (songIdx == previousSong)
+                    {
+                        Random rnd = new Random();
+                        songIdx = rnd.Next(0, playlist.Count);
+                    }
+                    player.Open(new Uri(playlist[songIdx]));
+                    tbPlaying.Text = "Now playing: " + songNames[songIdx];
+                    if (playButton.Content == FindResource("Pause"))
+                    {
+                        player.Play();
+                    }
+
+                }
             }
-            else
+            
+        }
+
+        private void Prev_Click(object sender, RoutedEventArgs e)
+        {
+            if (playlist.Count == 0)
             {
-                Random rnd = new Random();
-                currentSong = rnd.Next(0, playlist.Count);
-                player.Open(new Uri(playlist[currentSong]));
-                player.Play();
-                playing = 1;
+
+            } else
+            {
+                songIdx -= 1;
+                if (songIdx < 0)
+                {
+                    songIdx = playlist.Count - 1;
+                }
+                player.Open(new Uri(playlist[songIdx]));
+                tbPlaying.Text = "Now playing: " + songNames[songIdx];
+                if (playButton.Content == FindResource("Pause"))
+                {
+                    player.Play();
+                }
             }
+            
+
         }
 
 
@@ -127,27 +153,54 @@ namespace player
             if (player.IsMuted == false)
             {
                 player.IsMuted = true;
+                volumeButton.Content = FindResource("Muted");
+                volumeButton.Background = Brushes.Aqua;
             }
             else
             {
                 player.IsMuted = false;
+                volumeButton.Content = FindResource("High Volume");
+                volumeButton.Background = Brushes.White;
             }
         }
 
         private void Open_Click(object sender, EventArgs e)
         {
+            List<string> words = new List<string>();
+            songIdx = 0;
+            if (playButton.Content == FindResource("Pause"))
+            {
+                playButton.Content = FindResource("Play");
+                player.Pause();
+            }
             Microsoft.Win32.OpenFileDialog open = new Microsoft.Win32.OpenFileDialog();
             open.Multiselect = true;
             open.Filter = "All Files|*.mp3*";
-
+            string song;
             if (open.ShowDialog() == true)
             {
+                playlist.Clear();
+                songNames.Clear();
                 foreach (string file in open.FileNames)
                 {
                     playlist.Add(file);
                 }
-                player.Open(new Uri(playlist[currentSong]));
-                tb.Text = playlist[0];
+                player.Open(new Uri(playlist[songIdx]));
+                foreach(string s in playlist)
+                {
+                    words = s.Split('\\').ToList();
+                    song = words[words.Count() - 1];
+                    songNames.Add(song.Replace(".mp3", String.Empty));
+                }
+                tbPlaying.Text = "Now playing: " + songNames[songIdx];
+                tb.Text = "";
+                songList.ItemsSource = songNames;
+                for (int i = 1; i < songNames.Count(); i++)
+                { 
+                    tb.Text += "\n" + songNames[i];
+                }
+                
+
             }
         }
     }

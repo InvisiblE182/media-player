@@ -5,14 +5,17 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:player"
         mc:Ignorable="d"
-        Title="MainWindow" MinHeight="200" MinWidth="300" Height="200" Width="300">
+        Title="MainWindow" MinHeight="220" MinWidth="500" Height="220" Width="500">
     <Window.Resources>
-        <Image x:Key="Play" Source="C:\Users\InvisiblE\Documents\Visual Studio 2017\Projects\player\player\icons\Play-50.png" HorizontalAlignment="Left" VerticalAlignment="Top" Height="40" Width="40" />
-        <Image x:Key="Pause" Source="C:\Users\InvisiblE\Documents\Visual Studio 2017\Projects\player\player\icons\Pause-50.png" HorizontalAlignment="Left" VerticalAlignment="Top" Height="40" Width="40"/>
+        <Image x:Key="Play" Source="C:\Users\InvisiblE\Documents\Visual Studio 2017\Projects\player\player\icons\Play-50.png" HorizontalAlignment="Left" VerticalAlignment="Top" MaxHeight="40" MaxWidth="40" />
+        <Image x:Key="Pause" Source="C:\Users\InvisiblE\Documents\Visual Studio 2017\Projects\player\player\icons\Pause-50.png" HorizontalAlignment="Left" VerticalAlignment="Top" MaxHeight="40" MaxWidth="40"/>
+        <Image x:Key="Muted" Source="C:\Users\InvisiblE\Documents\Visual Studio 2017\Projects\player\player\icons\Mute-50.png" HorizontalAlignment="Left" VerticalAlignment="Top" MaxHeight="40" MaxWidth="40"/>
+        <Image x:Key="High Volume" Source="C:\Users\InvisiblE\Documents\Visual Studio 2017\Projects\player\player\icons\High Volume-50.png" HorizontalAlignment="Left" VerticalAlignment="Top" MaxHeight="40" MaxWidth="40" />
     </Window.Resources>
     <Grid>
-        <TextBlock x:Name="tb" HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="Now playing:" VerticalAlignment="Top" Height="30" Width="250"/>
-        <ProgressBar HorizontalAlignment="Stretch" VerticalAlignment="Bottom"  Margin="6,0,6,50" Height="6" MinWidth="288" >
+        <TextBlock x:Name="tb" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,0,3,80" TextWrapping="NoWrap" Width="150" FontSize="15" />
+        <TextBlock x:Name="tbPlaying" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="6,96,0,58" TextWrapping="Wrap" Text="Now playing:" FontSize="15" />
+        <ProgressBar Name="bar" HorizontalAlignment="Stretch" VerticalAlignment="Bottom"  Margin="6,0,6,50" Height="6" MinWidth="288" >
         </ProgressBar>
         <Grid Background="White" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,0,5">
             <Grid.ColumnDefinitions>
@@ -27,10 +30,10 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="40"/>
             </Grid.RowDefinitions>
-            <Button Name="Shuffle"  HorizontalAlignment="Left" VerticalAlignment="Top" Width="40" Height="40" Background="White" Click="Shuffle_Click">
+            <Button Name="shuffleButton"  HorizontalAlignment="Left" VerticalAlignment="Top" Width="40" Height="40" Background="White" Click="Shuffle_Click">
                 <Image Source="C:\Users\InvisiblE\Documents\Visual Studio 2017\Projects\player\player\icons\Shuffle-50.png"/>
             </Button>
-            <Button Name="Repeat" HorizontalAlignment="Left" VerticalAlignment="Top" Width="40" Height="40" Background="White"  Grid.Column="1" Click="Repeat_Click">
+            <Button Name="repeatButton" HorizontalAlignment="Left" VerticalAlignment="Top" Width="40" Height="40" Background="White"  Grid.Column="1" Click="Repeat_Click">
                 <Image Source="C:\Users\InvisiblE\Documents\Visual Studio 2017\Projects\player\player\icons\Repeat-50.png"/>
             </Button>
             <Button HorizontalAlignment="Left" VerticalAlignment="Top" Width="40" Height="40" Background="White"  Grid.Column="2" Click="Stop_Click">
@@ -39,17 +42,24 @@
             <Button HorizontalAlignment="Left" VerticalAlignment="Top" Width="40" Height="40" Background="White"  Grid.Column="3" Click="Prev_Click">
                 <Image Source="C:\Users\InvisiblE\Documents\Visual Studio 2017\Projects\player\player\icons\Skip to Start-50.png"/>
             </Button>
-            <Button Name="PlayButton" HorizontalAlignment="Left" VerticalAlignment="Top" Width="40" Height="40" Background="White"  Grid.Column="4" Click="Play_Click">
+            <Button Name="playButton" HorizontalAlignment="Left" VerticalAlignment="Top" Width="40" Height="40" Background="White"  Grid.Column="4" Click="Play_Click">
                 <Image Source="C:\Users\InvisiblE\Documents\Visual Studio 2017\Projects\player\player\icons\Play-50.png"/>
             </Button>
             <Button HorizontalAlignment="Left" VerticalAlignment="Top" Width="40" Height="40" Background="White"  Grid.Column="5" Click="Next_Click">
                 <Image Source="C:\Users\InvisiblE\Documents\Visual Studio 2017\Projects\player\player\icons\End-50.png"/>
             </Button>
-            <Button HorizontalAlignment="Left" VerticalAlignment="Top" Width="40" Height="40" Background="White"  Grid.Column="6" Click="Volume_Click">
+            <Button Name="volumeButton" HorizontalAlignment="Left" VerticalAlignment="Top" Width="40" Height="40" Background="White"  Grid.Column="6" Click="Volume_Click">
                 <Image Source="C:\Users\InvisiblE\Documents\Visual Studio 2017\Projects\player\player\icons\High Volume-50.png"/>
             </Button>
         </Grid>
-        <Button Content="Button" HorizontalAlignment="Left" Margin="173,56,0,0" VerticalAlignment="Top" Width="75" Click="Open_Click"/>
+        <Button Content="Create playlist" HorizontalAlignment="Right" Margin="0,89,5,58" VerticalAlignment="Bottom" Width="150" Click="Open_Click" Background="White" Height="22" VerticalContentAlignment="Center"/>
+        <ListBox Name="songList" HorizontalAlignment="Left" Height="100" Margin="140,10,0,0" VerticalAlignment="Top" Width="100" FontSize="15" Background="White">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Path=songNames}"/>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+         </ListBox>
     </Grid>
 
 </Window>
