@@ -21,18 +21,23 @@ namespace player
 {
     public partial class MainWindow : Window
     {
-        private MediaPlayer player = new MediaPlayer();
-        List<string> songList = new List<string>();
-        
-        int songIdx = 0;
-        int previousSong;
-        
+        public MediaPlayer player { get; set; }
+        private List<string> songList { get; set; }
+        private int songIdx { get; set; }
+        private  int previousSong { get; set; }
 
         public MainWindow()
         {
-            
-            InitializeComponent();
+            Initialise();
         }
+
+        private void Initialise()
+        {
+            player = new MediaPlayer();
+            songIdx = 0;
+            songList = new List<string>();
+        }
+        
 
         private void Shuffle_Click(object sender, RoutedEventArgs e)
         {
@@ -77,20 +82,14 @@ namespace player
             }
         }
 
-        
-            
-
         private void Next_Click(object sender, RoutedEventArgs e)
         {
-            if (songList.Count == 0)
-            {
-
-            } else
+            if (songList.Count != 0)
             {
                 if (shuffleButton.Background == Brushes.White)
                 {
                     songIdx += 1;
-                    if (songIdx == songList.Count)
+                    if (songIdx == songList.Count)//current song was last in playlist
                     {
                         songIdx = 0;
                     }
@@ -100,12 +99,11 @@ namespace player
                     {
                         player.Play();
                     }
-
                 }
                 else
                 {
                     previousSong = songIdx;
-                    while (songIdx == previousSong)
+                    while (songIdx == previousSong)//thist prevents playing the same song again
                     {
                         Random rnd = new Random();
                         songIdx = rnd.Next(0, songList.Count);
@@ -116,18 +114,13 @@ namespace player
                     {
                         player.Play();
                     }
-
                 }
             }
-            
         }
 
         private void Prev_Click(object sender, RoutedEventArgs e)
         {
-            if (songList.Count == 0)
-            {
-
-            } else
+            if (songList.Count != 0)
             {
                 songIdx -= 1;
                 if (songIdx < 0)
@@ -141,10 +134,7 @@ namespace player
                     player.Play();
                 }
             }
-            
-
         }
-
 
         List<double> Volume = new List<double>();
 
@@ -187,9 +177,18 @@ namespace player
                 {
                     playlist.Items.Add(System.IO.Path.GetFileName(s).Replace(".mp3", String.Empty));
                 }
-                tbPlaying.Text = "Now playing: " + playlist.Items[songIdx]; ;
+                tbPlaying.Text = "First up: " + playlist.Items[songIdx];
+                playlist.BorderBrush = Brushes.Gray;
             }
+
         }
 
+        private void Playlist_DoubleClick(object sender, RoutedEventArgs e)
+        {
+            songIdx = playlist.SelectedIndex;
+            player.Open(new Uri(songList[songIdx]));
+            tbPlaying.Text = "Now playing: " + playlist.Items[songIdx]; ;
+            player.Play();
+        }
     }
 }

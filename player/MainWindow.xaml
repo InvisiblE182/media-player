@@ -52,8 +52,7 @@
             </Button>
         </Grid>
         <Button Content="Create playlist" HorizontalAlignment="Right" Margin="0,89,5,58" VerticalAlignment="Bottom" Width="150" Click="Open_Click" Background="White" Height="22" VerticalContentAlignment="Center"/>
-        <ListBox Name="playlist" SelectedIndex="{Binding MySelectedIndex}" HorizontalAlignment="Right" Margin="0,0,5,80" VerticalAlignment="Stretch" Width="150" FontSize="15" Background="White"/>
+        <ListBox MouseDoubleClick="Playlist_DoubleClick" Name="playlist" SelectedIndex="{Binding MySelectedIndex}" HorizontalAlignment="Right" Margin="0,0,5,80" VerticalAlignment="Stretch" Width="150" FontSize="15" Background="White" BorderBrush="White"/>
     </Grid>
-
 </Window>
 
