@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:player"
         mc:Ignorable="d"
-        Title="MainWindow" MinHeight="220" MinWidth="500" Height="220" Width="500">
+        Title="Player" MinHeight="220" MinWidth="500" Height="220" Width="500">
     <Window.Resources>
         <Image x:Key="Play" Source="C:\Users\InvisiblE\Documents\Visual Studio 2017\Projects\player\player\icons\Play-50.png" HorizontalAlignment="Left" VerticalAlignment="Top" MaxHeight="40" MaxWidth="40" />
         <Image x:Key="Pause" Source="C:\Users\InvisiblE\Documents\Visual Studio 2017\Projects\player\player\icons\Pause-50.png" HorizontalAlignment="Left" VerticalAlignment="Top" MaxHeight="40" MaxWidth="40"/>
@@ -14,9 +14,7 @@
     </Window.Resources>
     <Grid>
         <TextBlock x:Name="tbPlaying" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="6,96,0,58" TextWrapping="Wrap" Text="Now playing:" FontSize="15" />
-        <ProgressBar Name="bar" HorizontalAlignment="Stretch" VerticalAlignment="Bottom"  Margin="6,0,6,50" Height="6" MinWidth="288" >
-        </ProgressBar>
-        <Grid Background="White" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,0,5">
+        <Grid VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,0,5">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="40"/>
                 <ColumnDefinition Width="40"/>
@@ -25,10 +23,12 @@
                 <ColumnDefinition Width="40"/>
                 <ColumnDefinition Width="40"/>
                 <ColumnDefinition Width="40"/>
+                <ColumnDefinition Width="100"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="40"/>
             </Grid.RowDefinitions>
+
             <Button Name="shuffleButton"  HorizontalAlignment="Left" VerticalAlignment="Top" Width="40" Height="40" Background="White" Click="Shuffle_Click">
                 <Image Source="C:\Users\InvisiblE\Documents\Visual Studio 2017\Projects\player\player\icons\Shuffle-50.png"/>
             </Button>
@@ -50,9 +50,18 @@
             <Button Name="volumeButton" HorizontalAlignment="Left" VerticalAlignment="Top" Width="40" Height="40" Background="White"  Grid.Column="6" Click="Volume_Click">
                 <Image Source="C:\Users\InvisiblE\Documents\Visual Studio 2017\Projects\player\player\icons\High Volume-50.png"/>
             </Button>
+            <Slider Grid.Column="7" Name="volumeSlider" TickFrequency="0.01" IsSnapToTickEnabled="True" ValueChanged="VolumeSlider_ValueChanged" Maximum="1.0" Height="20" Margin="5,5,0,0" Value="1">
+            </Slider>
         </Grid>
         <Button Content="Create playlist" HorizontalAlignment="Right" Margin="0,89,5,58" VerticalAlignment="Bottom" Width="150" Click="Open_Click" Background="White" Height="22" VerticalContentAlignment="Center"/>
-        <ListBox MouseDoubleClick="Playlist_DoubleClick" Name="playlist" SelectedIndex="{Binding MySelectedIndex}" HorizontalAlignment="Right" Margin="0,0,5,80" VerticalAlignment="Stretch" Width="150" FontSize="15" Background="White" BorderBrush="White"/>
+        <ListBox MouseDoubleClick="Playlist_DoubleClick" Name="playlist" SelectedIndex="{Binding MySelectedIndex}"  HorizontalAlignment="Right" Margin="0,0,5,80" VerticalAlignment="Stretch" Width="150" FontSize="15" Background="White" BorderBrush="White"/>
+        <Slider Name="songSlider" ValueChanged="SongSlider_ValueChanged" Minimum="0" Maximum="100" AutoToolTipPlacement="BottomRight"  Margin="5,0,5,50" VerticalAlignment="Bottom" Height="20">
+            <Slider.LayoutTransform>
+                <ScaleTransform ScaleY="0.65" ScaleX="0.5" CenterX="15" CenterY="15"/>
+            </Slider.LayoutTransform>
+        </Slider>
     </Grid>
 </Window>
+    
+    
 

@@ -17,14 +17,17 @@ using System.Windows.Shapes;
 
 
 
+
 namespace player
 {
     public partial class MainWindow : Window
     {
         public MediaPlayer player { get; set; }
+        private List<double> volume { get; set; }
         private List<string> songList { get; set; }
         private int songIdx { get; set; }
         private  int previousSong { get; set; }
+
 
         public MainWindow()
         {
@@ -36,6 +39,8 @@ namespace player
             player = new MediaPlayer();
             songIdx = 0;
             songList = new List<string>();
+            volume = new List<double>();
+
         }
         
 
@@ -74,6 +79,7 @@ namespace player
             {
                 playButton.Content = FindResource("Pause");
                 player.Play();
+                tbPlaying.Text = "Now playing: " + playlist.Items[songIdx];
             }
             else
             {
@@ -122,21 +128,33 @@ namespace player
         {
             if (songList.Count != 0)
             {
-                songIdx -= 1;
-                if (songIdx < 0)
+                if (shuffleButton.Background == Brushes.White)
                 {
-                    songIdx = songList.Count - 1;
-                }
-                player.Open(new Uri(songList[songIdx]));
-                tbPlaying.Text = "Now playing: " + playlist.Items[songIdx];
-                if (playButton.Content == FindResource("Pause"))
+                    songIdx -= 1;
+                    if (songIdx < 0)
+                    {
+                        songIdx = songList.Count - 1;
+                    }
+                    player.Open(new Uri(songList[songIdx]));
+                    tbPlaying.Text = "Now playing: " + playlist.Items[songIdx];
+                    if (playButton.Content == FindResource("Pause"))
+                    {
+                        player.Play();
+                    }
+                } else
                 {
-                    player.Play();
+                    previousSong = songIdx;
+                    player.Open(new Uri(songList[songIdx]));
+                    tbPlaying.Text = "Now playing: " + playlist.Items[songIdx];
+                    if (playButton.Content == FindResource("Pause"))
+                    {
+                        player.Play();
+                    }
                 }
             }
         }
 
-        List<double> Volume = new List<double>();
+        
 
         private void Volume_Click(object sender, RoutedEventArgs e)
         {
@@ -153,6 +171,17 @@ namespace player
                 volumeButton.Content = FindResource("High Volume");
                 volumeButton.Background = Brushes.White;
             }
+        }
+        
+
+        private void VolumeSlider_ValueChanged(object sender, EventArgs e)
+        {
+            player.Volume = volumeSlider.Value;
+        }
+
+        private void SongSlider_ValueChanged(object sender, EventArgs e)
+        {
+            
         }
 
         private void Open_Click(object sender, EventArgs e)
@@ -179,6 +208,7 @@ namespace player
                 }
                 tbPlaying.Text = "First up: " + playlist.Items[songIdx];
                 playlist.BorderBrush = Brushes.Gray;
+
             }
 
         }
@@ -190,5 +220,7 @@ namespace player
             tbPlaying.Text = "Now playing: " + playlist.Items[songIdx]; ;
             player.Play();
         }
+
+
     }
 }
