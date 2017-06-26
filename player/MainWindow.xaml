@@ -11,11 +11,14 @@
         <Image x:Key="Pause" Source="C:\Users\InvisiblE\Documents\Visual Studio 2017\Projects\player\player\icons\Pause-50.png" HorizontalAlignment="Left" VerticalAlignment="Top" MaxHeight="40" MaxWidth="40"/>
         <Image x:Key="Muted" Source="C:\Users\InvisiblE\Documents\Visual Studio 2017\Projects\player\player\icons\Mute-50.png" HorizontalAlignment="Left" VerticalAlignment="Top" MaxHeight="40" MaxWidth="40"/>
         <Image x:Key="High Volume" Source="C:\Users\InvisiblE\Documents\Visual Studio 2017\Projects\player\player\icons\High Volume-50.png" HorizontalAlignment="Left" VerticalAlignment="Top" MaxHeight="40" MaxWidth="40" />
+        <Image x:Key="Medium Volume" Source="C:\Users\InvisiblE\Documents\Visual Studio 2017\Projects\player\player\icons\Medium Volume-50.png" HorizontalAlignment="Left" VerticalAlignment="Top" MaxHeight="40" MaxWidth="40" />
+        <Image x:Key="Low Volume" Source="C:\Users\InvisiblE\Documents\Visual Studio 2017\Projects\player\player\icons\Low Volume-50.png" HorizontalAlignment="Left" VerticalAlignment="Top" MaxHeight="40" MaxWidth="40" />
     </Window.Resources>
     <Grid>
         <TextBlock x:Name="tbPlaying" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="6,96,0,58" TextWrapping="Wrap" Text="Now playing:" FontSize="15" />
         <Grid VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,0,5">
             <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100"/>
                 <ColumnDefinition Width="40"/>
                 <ColumnDefinition Width="40"/>
                 <ColumnDefinition Width="40"/>
@@ -28,37 +31,34 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="40"/>
             </Grid.RowDefinitions>
-
-            <Button Name="shuffleButton"  HorizontalAlignment="Left" VerticalAlignment="Top" Width="40" Height="40" Background="White" Click="Shuffle_Click">
+            <TextBlock Name="prgTime" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center" TextWrapping="Wrap" FontSize="15" Margin="0,0,5,0"/>
+            <Button Name="shuffleButton" Grid.Column="1"  HorizontalAlignment="Left" VerticalAlignment="Top" Width="40" Height="40" Background="White" Click="Shuffle_Click">
                 <Image Source="C:\Users\InvisiblE\Documents\Visual Studio 2017\Projects\player\player\icons\Shuffle-50.png"/>
             </Button>
-            <Button Name="repeatButton" HorizontalAlignment="Left" VerticalAlignment="Top" Width="40" Height="40" Background="White"  Grid.Column="1" Click="Repeat_Click">
+            <Button Name="repeatButton" HorizontalAlignment="Left" VerticalAlignment="Top" Width="40" Height="40" Background="White"  Grid.Column="2" Click="Repeat_Click">
                 <Image Source="C:\Users\InvisiblE\Documents\Visual Studio 2017\Projects\player\player\icons\Repeat-50.png"/>
             </Button>
-            <Button HorizontalAlignment="Left" VerticalAlignment="Top" Width="40" Height="40" Background="White"  Grid.Column="2" Click="Stop_Click">
+            <Button HorizontalAlignment="Left" VerticalAlignment="Top" Width="40" Height="40" Background="White"  Grid.Column="3" Click="Stop_Click">
                 <Image Source="C:\Users\InvisiblE\Documents\Visual Studio 2017\Projects\player\player\icons\Stop-50.png"/>
             </Button>
-            <Button HorizontalAlignment="Left" VerticalAlignment="Top" Width="40" Height="40" Background="White"  Grid.Column="3" Click="Prev_Click">
+            <Button HorizontalAlignment="Left" VerticalAlignment="Top" Width="40" Height="40" Background="White"  Grid.Column="4" Click="Prev_Click">
                 <Image Source="C:\Users\InvisiblE\Documents\Visual Studio 2017\Projects\player\player\icons\Skip to Start-50.png"/>
             </Button>
-            <Button Name="playButton" HorizontalAlignment="Left" VerticalAlignment="Top" Width="40" Height="40" Background="White"  Grid.Column="4" Click="Play_Click">
+            <Button Name="playButton" HorizontalAlignment="Left" VerticalAlignment="Top" Width="40" Height="40" Background="White"  Grid.Column="5" Click="Play_Click">
                 <Image Source="C:\Users\InvisiblE\Documents\Visual Studio 2017\Projects\player\player\icons\Play-50.png"/>
             </Button>
-            <Button HorizontalAlignment="Left" VerticalAlignment="Top" Width="40" Height="40" Background="White"  Grid.Column="5" Click="Next_Click">
+            <Button HorizontalAlignment="Left" VerticalAlignment="Top" Width="40" Height="40" Background="White"  Grid.Column="6" Click="Next_Click">
                 <Image Source="C:\Users\InvisiblE\Documents\Visual Studio 2017\Projects\player\player\icons\End-50.png"/>
             </Button>
-            <Button Name="volumeButton" HorizontalAlignment="Left" VerticalAlignment="Top" Width="40" Height="40" Background="White"  Grid.Column="6" Click="Volume_Click">
+            <Button Name="volumeButton" HorizontalAlignment="Left" VerticalAlignment="Top" Width="40" Height="40" Background="White"  Grid.Column="7" Click="Volume_Click">
                 <Image Source="C:\Users\InvisiblE\Documents\Visual Studio 2017\Projects\player\player\icons\High Volume-50.png"/>
             </Button>
-            <Slider Grid.Column="7" Name="volumeSlider" TickFrequency="0.01" IsSnapToTickEnabled="True" ValueChanged="VolumeSlider_ValueChanged" Maximum="1.0" Height="20" Margin="5,5,0,0" Value="1">
+            <Slider Grid.Column="8" Name="volumeSlider" TickFrequency="1" IsSnapToTickEnabled="True" ValueChanged="VolumeSlider_ValueChanged" Minimum="0" Maximum="100" Height="20" Margin="5,5,0,0" Value="100" AutoToolTipPlacement="BottomRight">
             </Slider>
         </Grid>
         <Button Content="Create playlist" HorizontalAlignment="Right" Margin="0,89,5,58" VerticalAlignment="Bottom" Width="150" Click="Open_Click" Background="White" Height="22" VerticalContentAlignment="Center"/>
         <ListBox MouseDoubleClick="Playlist_DoubleClick" Name="playlist" SelectedIndex="{Binding MySelectedIndex}"  HorizontalAlignment="Right" Margin="0,0,5,80" VerticalAlignment="Stretch" Width="150" FontSize="15" Background="White" BorderBrush="White"/>
-        <Slider Name="songSlider" ValueChanged="SongSlider_ValueChanged" Minimum="0" Maximum="100" AutoToolTipPlacement="BottomRight"  Margin="5,0,5,50" VerticalAlignment="Bottom" Height="20">
-            <Slider.LayoutTransform>
-                <ScaleTransform ScaleY="0.65" ScaleX="0.5" CenterX="15" CenterY="15"/>
-            </Slider.LayoutTransform>
+        <Slider Name="prgBar" Minimum="0" AutoToolTipPlacement="BottomRight"  Margin="5,0,5,45" VerticalAlignment="Bottom" Height="20">
         </Slider>
     </Grid>
 </Window>
