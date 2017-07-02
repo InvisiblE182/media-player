@@ -293,7 +293,15 @@ namespace player
         private void Value_Changed(object sender, RoutedEventArgs e)
         {
             TimeSpan time = TimeSpan.FromSeconds(prgBar.Value);
-            prgTime.Text = String.Format("{0} / {1}", time.ToString(@"mm\:ss"), player.NaturalDuration.TimeSpan.ToString(@"mm\:ss"));
+            if (songList.Count != 0)
+            {
+                prgTime.Text = String.Format("{0} / {1}", time.ToString(@"mm\:ss"), player.NaturalDuration.TimeSpan.ToString(@"mm\:ss"));
+            }
+            if (Math.Round(prgBar.Value) / Math.Round(player.Position.TotalSeconds) != 1 && songList.Count != 0)
+            {
+                TimeSpan ts = new TimeSpan(0, 0, (int)prgBar.Value);
+                player.Position = ts;
+            }
         }
 
         private void User_Change_Complete(object sender, RoutedEventArgs e)

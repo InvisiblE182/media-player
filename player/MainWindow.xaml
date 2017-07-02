@@ -15,7 +15,7 @@
         <Image x:Key="Low Volume" Source="C:\Users\InvisiblE\Documents\Visual Studio 2017\Projects\player\player\icons\Low Volume-50.png" HorizontalAlignment="Left" VerticalAlignment="Top" MaxHeight="40" MaxWidth="40" />
     </Window.Resources>
     <Grid>
-        <TextBlock x:Name="tbPlaying" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="6,96,0,58" TextWrapping="Wrap" Text="Now playing:" FontSize="15" />
+        <TextBlock x:Name="tbPlaying" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="6,96,0,68" TextWrapping="Wrap" Text="Now playing:" FontSize="15" />
         <Grid VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,0,5">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="100"/>
@@ -56,9 +56,9 @@
             <Slider Grid.Column="8" Name="volumeSlider" TickFrequency="1" IsSnapToTickEnabled="True" ValueChanged="VolumeSlider_ValueChanged" Minimum="0" Maximum="100" Height="20" Margin="5,5,0,0" Value="100" AutoToolTipPlacement="BottomRight">
             </Slider>
         </Grid>
-        <Button Content="Create playlist" HorizontalAlignment="Right" Margin="0,89,5,58" VerticalAlignment="Bottom" Width="150" Click="Open_Click" Background="White" Height="22" VerticalContentAlignment="Center"/>
-        <ListBox MouseDoubleClick="Playlist_DoubleClick" Name="playlist" SelectedIndex="{Binding MySelectedIndex}"  HorizontalAlignment="Right" Margin="0,0,5,80" VerticalAlignment="Stretch" Width="150" FontSize="15" Background="White" BorderBrush="White"/>
-        <Slider Name="prgBar" Thumb.DragStarted="User_Change_Start" Thumb.DragCompleted="User_Change_Complete" ValueChanged="Value_Changed" Minimum="0" AutoToolTipPlacement="BottomRight"  Margin="5,0,5,45" VerticalAlignment="Bottom" Height="20">
+        <Button Content="Create playlist" HorizontalAlignment="Right" Margin="0,89,5,68" VerticalAlignment="Bottom" Width="150" Click="Open_Click" Background="White" Height="22" VerticalContentAlignment="Center"/>
+        <ListBox MouseDoubleClick="Playlist_DoubleClick" Name="playlist" SelectedIndex="{Binding MySelectedIndex}"  HorizontalAlignment="Right" Margin="0,0,5,90" VerticalAlignment="Stretch" Width="150" FontSize="15" Background="White" BorderBrush="White"/>
+        <Slider Name="prgBar" IsMoveToPointEnabled="True" Thumb.DragStarted="User_Change_Start" Thumb.DragCompleted="User_Change_Complete" ValueChanged="Value_Changed" Minimum="0" AutoToolTipPlacement="BottomRight"  Margin="5,0,5,45" VerticalAlignment="Bottom" Height="20">
         </Slider>
     </Grid>
 </Window>
