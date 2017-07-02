@@ -18,6 +18,7 @@ using Microsoft.Win32;
 using System.Windows.Threading;
 
 
+
 namespace player
 {
     public partial class MainWindow : Window
@@ -280,5 +281,30 @@ namespace player
             player.Play();
             
         }
+
+        private void User_Change_Start(object sender, RoutedEventArgs e)
+        {
+            if (playButton.Content == FindResource("Pause"))
+            {
+                timer.Stop();
+            }
+        }
+
+        private void Value_Changed(object sender, RoutedEventArgs e)
+        {
+            TimeSpan time = TimeSpan.FromSeconds(prgBar.Value);
+            prgTime.Text = String.Format("{0} / {1}", time.ToString(@"mm\:ss"), player.NaturalDuration.TimeSpan.ToString(@"mm\:ss"));
+        }
+
+        private void User_Change_Complete(object sender, RoutedEventArgs e)
+        {
+            if (playButton.Content == FindResource("Pause"))
+            {
+                TimeSpan ts = new TimeSpan(0, 0, (int)prgBar.Value);
+                player.Position = ts;
+                Timer_Start();
+            }
+        }
+
     }
 }

@@ -58,7 +58,7 @@
         </Grid>
         <Button Content="Create playlist" HorizontalAlignment="Right" Margin="0,89,5,58" VerticalAlignment="Bottom" Width="150" Click="Open_Click" Background="White" Height="22" VerticalContentAlignment="Center"/>
         <ListBox MouseDoubleClick="Playlist_DoubleClick" Name="playlist" SelectedIndex="{Binding MySelectedIndex}"  HorizontalAlignment="Right" Margin="0,0,5,80" VerticalAlignment="Stretch" Width="150" FontSize="15" Background="White" BorderBrush="White"/>
-        <Slider Name="prgBar" Minimum="0" AutoToolTipPlacement="BottomRight"  Margin="5,0,5,45" VerticalAlignment="Bottom" Height="20">
+        <Slider Name="prgBar" Thumb.DragStarted="User_Change_Start" Thumb.DragCompleted="User_Change_Complete" ValueChanged="Value_Changed" Minimum="0" AutoToolTipPlacement="BottomRight"  Margin="5,0,5,45" VerticalAlignment="Bottom" Height="20">
         </Slider>
     </Grid>
 </Window>
